@@ -1,6 +1,8 @@
 # Exercise-03c-Music-and-Sound
 Exercise for MSCH-C220, 1 March 2021
 
+An exercise demonstration is available here: [https://youtu.be/YLrvMBcH2bk](https://youtu.be/YLrvMBcH2bk)
+
 This exercise is designed to explore adding music, sound, a ball trail, and a face (as well as a few other effects) to our boring brick breaker game (in the spirit of "Juice it or Lose it"). This builds on the last two exercises (that added colors, particles, tweening, and screen shake).
 
 Fork this repository. When that process has completed, make sure that the top of the repository reads [your username]/Exercise-03c-Music-and-Sound. *Edit the LICENSE and replace BL-MSCH-C220-S21 with your full name.* Commit your changes.
