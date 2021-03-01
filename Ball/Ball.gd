@@ -9,8 +9,8 @@ onready var effect_paddle = get_node("/root/Game/Effect_Paddle")
 onready var effect_wall = get_node("/root/Game/Effect_Wall")
 onready var effect_brick = get_node("/root/Game/Effect_Brick")
 
-var wall_trauma = 0.005
-var paddle_trauma = 0.008
+var wall_trauma = 0.01
+var paddle_trauma = 0.01
 var brick_trauma = 0.01
 
 func _ready():
@@ -33,10 +33,6 @@ func update_color():
 
 
 
-func screen_shake(amount):
-	if HUD.screen_shake > 0:
-		camera.add_trauma(amount*HUD.screen_shake)
-
 func play_sound(sound):
 	if HUD.audio_effects:
 		sound.play()
@@ -52,13 +48,16 @@ func _physics_process(_delta):
 	var bodies = get_colliding_bodies()
 	for body in bodies:
 		if body.name == "Walls":
-			screen_shake(wall_trauma)
+			if HUD.screen_shake_walls > 0:
+				camera.add_trauma(wall_trauma*HUD.screen_shake_walls)
 			play_sound(effect_wall)
 		if body.name == "Paddle":
-			screen_shake(paddle_trauma)
+			if HUD.screen_shake_paddle > 0:
+				camera.add_trauma(paddle_trauma*HUD.screen_shake_paddle)
 			play_sound(effect_paddle)
 		if body.is_in_group("Brick"):
-			screen_shake(brick_trauma)
+			if HUD.screen_shake_blocks > 0:
+				camera.add_trauma(brick_trauma*HUD.screen_shake_blocks)
 			play_sound(effect_brick)
 			
 		if body.has_method("emit_particle"):

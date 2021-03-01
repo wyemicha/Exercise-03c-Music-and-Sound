@@ -17,8 +17,8 @@ func _ready():
 func start_bricks():
 	for c in get_children():
 		c.queue_free()
-	var startx = (VP.x / 2) - (B.x + margin) * (W/2)
-	var starty = top_margin
+	var startx = ((VP.x / 2) - (B.x + margin) * (W/2)) + (B.x/2)
+	var starty = top_margin + (B.y/2)
 	for w in range(W):
 		for h in range(H):
 			var brick = Brick.instance()

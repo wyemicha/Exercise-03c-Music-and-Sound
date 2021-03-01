@@ -13,9 +13,6 @@ onready var noise = OpenSimplexNoise.new()
 var noise_y = 0
 
 func _ready():
-	if !get_node("/root/Game/HUD").visible:
-		current = true
-
 	randomize()
 	noise.seed = randi()
 	noise.period = 4

@@ -82,7 +82,7 @@ curve = SubResource( 13 )
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )
 spread = 60.0
-gravity = Vector3( 0, 98, 0 )
+gravity = Vector3( 0, 0, 0 )
 initial_velocity = 450.0
 initial_velocity_random = 0.75
 angular_velocity = 100.0
@@ -160,8 +160,7 @@ shape = SubResource( 8 )
 [node name="Face" type="Node2D" parent="Paddle_Container/Paddle"]
 script = ExtResource( 12 )
 
-[node name="Particles2D" type="Particles2D" parent="Paddle_Container"]
-position = Vector2( 507, 700 )
+[node name="Particles2D" type="Particles2D" parent="Paddle_Container/Paddle"]
 emitting = false
 amount = 6
 lifetime = 0.4

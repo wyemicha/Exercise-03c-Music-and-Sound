@@ -10,14 +10,17 @@ var particle_walls = false
 var particle_blocks = false
 var particle_ball = false
 
-var blocks_appear = true
+var blocks_appear = false
 var blocks_fall = false
 var blocks_fade = false
+var blocks_rotate = false
 
-var screen_shake = 50
+var screen_shake_paddle = 0
+var screen_shake_blocks = 0
+var screen_shake_walls = 0
 var ball_trail = false
 
-var paddle_appear = true
+var paddle_appear = false
 var paddle_stretch = false
 var paddle_face = false
 
@@ -29,24 +32,88 @@ var effects_blur = false
 
 signal changed
 
-func _ready():
-	$Menu/Blocks/Blocks_Appear.pressed = true
-	$Menu/Blocks/Blocks_Fall_and_Fade.pressed = true
-	$Menu/Paddle/Paddle_Appear.pressed = true
-	$Menu/Paddle/Paddle_Stretch.pressed = true
-	$Menu/Color/Color.pressed = true
-	$Menu/Particles/Particles.pressed = true
-	$Menu/Ball/Screen_Shake.value = screen_shake
+onready var WE = get_node_or_null("/root/Game/WorldEnvironment")
 
+func _ready():
+	reset_values()
+	
 func reset_values():
+	color_paddle = true
+	color_ball = true
+	color_blocks = true
+	color_background = true
+
+	particle_paddle = true
+	particle_walls = true
+	particle_blocks = true
+	particle_ball = true
+
+	blocks_appear = false
+	blocks_fall = false
+	blocks_fade = false
+	blocks_rotate = false
+
+	screen_shake_paddle = 0
+	screen_shake_blocks = 0
+	screen_shake_walls = 0
+	ball_trail = false
+
+	paddle_appear = false
+	paddle_stretch = false
+	paddle_face = false
+
+	audio_music = false
+	audio_effects = false
+
+	effects_blur = false
 	emit_signal("changed")
+	set_UI()
+
+func set_UI():
+	$Menu/Color/Color_Paddle.pressed = color_paddle
+	$Menu/Color/Color_Ball.pressed = color_ball
+	$Menu/Color/Color_Blocks.pressed = color_blocks
+	$Menu/Color/Color_Background.pressed = color_background
+
+	$Menu/Particles/Particle_Paddle.pressed = particle_paddle
+	$Menu/Particles/Particle_Blocks.pressed = particle_blocks
+	$Menu/Particles/Particle_Walls.pressed = particle_walls
+	$Menu/Particles/Particle_Ball.pressed = particle_ball
+
+	$Menu/Blocks/Blocks_Appear.pressed = blocks_appear
+	$Menu/Blocks/Blocks_Fall.pressed = blocks_fall
+	$Menu/Blocks/Blocks_Fade.pressed = blocks_fade
+	$Menu/Blocks/Blocks_Rotate.pressed = blocks_rotate
+	 
+	$Menu/Ball/Ball_Trail.pressed = ball_trail
+
+	$Menu/Paddle/Paddle_Appear.pressed = paddle_appear
+	$Menu/Paddle/Paddle_Stretch.pressed = paddle_stretch
+
+	$Menu/Screen_Shake/Screen_Shake_Paddle.value = screen_shake_paddle
+	$Menu/Screen_Shake/Screen_Shake_Blocks.value = screen_shake_blocks
+	$Menu/Screen_Shake/Screen_Shake_Walls.value = screen_shake_walls
+
+	$Menu/Audio/Audio_music.pressed = audio_music
+	$Menu/Audio/Audio_effects.pressed = audio_effects
+
+	$Menu/Effects/Effects_blur.pressed = audio_music
+
+	$Menu/Face/Paddle_Face.pressed = paddle_face
 
 
 func _on_Reset_pressed():
+	reset_values()
+	
+
+func _on_Restart_pressed():
 	get_node("/root/Game/Bricks").start_bricks()
 	get_node("/root/Game/Ball_Container").start_ball()
 	get_node("/root/Game/Paddle_Container/Paddle").start_paddle()
-	reset_values()
+	get_tree().paused = false
+	if WE != null:
+		WE.show()
+	hide()
 
 
 func _on_Quit_pressed():
@@ -54,37 +121,11 @@ func _on_Quit_pressed():
 
 
 
-func _on_Color_toggled(button_pressed):
-	color_paddle = button_pressed
-	color_ball = button_pressed
-	color_blocks = button_pressed
-	color_background = button_pressed
-	emit_signal("changed")
-
-
-
-func _on_Particles_toggled(button_pressed):
-	particle_paddle = button_pressed
-	particle_walls = button_pressed
-	particle_blocks = button_pressed
-	particle_ball = button_pressed
-	emit_signal("changed")
-
 
 func _on_Blocks_Appear_toggled(button_pressed):
 	blocks_appear = button_pressed
 	emit_signal("changed")
 
-func _on_Blocks_Fall_and_Fade_toggled(button_pressed):
-	blocks_fall = button_pressed
-	blocks_fade = button_pressed
-	emit_signal("changed")
-
-
-
-func _on_Screen_Shake_value_changed(value):
-	screen_shake = value
-	emit_signal("changed")
 
 func _on_Ball_Trail_toggled(button_pressed):
 	ball_trail = button_pressed
@@ -121,3 +162,73 @@ func _on_Audio_effects_toggled(button_pressed):
 func _on_Effects_blur_toggled(button_pressed):
 	effects_blur = button_pressed
 	emit_signal("changed")
+
+
+func _on_Color_Paddle_toggled(button_pressed):
+	color_paddle = button_pressed
+	emit_signal("changed")
+
+
+func _on_Color_Ball_toggled(button_pressed):
+	color_ball = button_pressed
+	emit_signal("changed")
+
+
+func _on_Color_Blocks_toggled(button_pressed):
+	color_blocks = button_pressed
+	emit_signal("changed")
+
+
+func _on_Color_Background_toggled(button_pressed):
+	color_background = button_pressed
+	emit_signal("changed")
+
+
+func _on_Particle_Paddle_toggled(button_pressed):
+	particle_paddle = button_pressed
+	emit_signal("changed")
+
+
+func _on_Particle_Blocks_toggled(button_pressed):
+	particle_blocks = button_pressed
+	emit_signal("changed")
+
+
+func _on_Particle_Walls_toggled(button_pressed):
+	particle_walls = button_pressed
+	emit_signal("changed")
+
+
+func _on_Particle_Ball_toggled(button_pressed):
+	particle_ball = button_pressed
+	emit_signal("changed")
+
+
+func _on_Blocks_Fall_toggled(button_pressed):
+	blocks_fall = button_pressed
+	emit_signal("changed")
+
+
+func _on_Blocks_Fade_toggled(button_pressed):
+	blocks_fade = button_pressed
+	emit_signal("changed")
+
+func _on_Blocks_Rotate_toggled(button_pressed):
+	blocks_rotate = button_pressed
+	emit_signal("changed")
+
+
+func _on_Screen_Shake_Paddle_value_changed(value):
+	screen_shake_paddle = value
+	emit_signal("changed")
+
+
+func _on_Screen_Shake_Blocks_value_changed(value):
+	screen_shake_blocks = value
+	emit_signal("changed")
+
+
+func _on_Screen_Shake_Walls_value_changed(value):
+	screen_shake_walls = value
+	emit_signal("changed")
+

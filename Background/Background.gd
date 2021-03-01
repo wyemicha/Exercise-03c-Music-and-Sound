@@ -28,6 +28,5 @@ func _on_HUD_changed():
 
 func _on_Timer_timeout():
 	if HUD.color_background:
-		c += 1
-		c %= colors.size()
+		c = wrapi(c+1, 0, colors.size())
 		update_color()
