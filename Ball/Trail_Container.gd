@@ -10,4 +10,11 @@ func _ready():
 	randomize()
 
 func _physics_process(_delta):
-	pass
+	for ch in get_children():
+		ch.rect_position.x += (randf()-0.5)
+		ch.rect_position.y += (randf()-0.5)
+		
+		ch.rect_size *= (1-shrink_amount)
+		ch.color = ch.color.from_hsv(ch.color.h+hue_amount, ch.color.s-desaturate_amount, ch.color.v-darken_amount, ch.color.a-fade_amount)
+		if ch.color.a <= 0:
+			ch.queue_free()
